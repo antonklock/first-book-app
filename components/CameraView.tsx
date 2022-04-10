@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Camera } from "expo-camera";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Button } from "react-native";
+import PhotoThumb from "./PhotoThumb";
 
 export default function CameraView() {
   const [hasPermission, setHasPermission] = useState(false);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [imgSource, setImgSource] = useState("");
+  const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -13,13 +16,25 @@ export default function CameraView() {
     })();
   }, []);
 
+  async function snapPhoto() {
+    if (cameraRef) {
+      let photo: any;
+      try {
+        photo = await cameraRef.current.takePictureAsync();
+      } catch {
+        console.log("SHIT!");
+      }
+      setImgSource(photo.uri);
+    }
+  }
+
   if (!hasPermission) {
     return <Text>No access to camera</Text>;
   }
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
+      <Camera style={styles.camera} type={type} ref={cameraRef}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -35,6 +50,16 @@ export default function CameraView() {
           </TouchableOpacity>
         </View>
       </Camera>
+      <View style={styles.container}>
+        <PhotoThumb imgSource={imgSource} />
+      </View>
+      <Button
+        title={"Take picture"}
+        onPress={() => {
+          console.log(imgSource);
+          snapPhoto();
+        }}
+      />
     </View>
   );
 }

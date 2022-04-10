@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View, Alert } from "react-native";
 import { Camera } from "expo-camera";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CameraView from "./components/CameraView";
 
 export default function App() {
