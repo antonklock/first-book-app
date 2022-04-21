@@ -22,7 +22,7 @@ export default function CameraView() {
       try {
         photo = await cameraRef.current.takePictureAsync();
       } catch {
-        console.log("SHIT!");
+        console.log("Failed to take picture!");
       }
       setImgSource(photo.uri);
     }
