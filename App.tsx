@@ -3,32 +3,26 @@ import { Button, StyleSheet, Text, View, Alert } from "react-native";
 import { Camera } from "expo-camera";
 import React, { useState, useEffect } from "react";
 import CameraView from "./components/CameraView";
+import NavBar from "./components/Nav/NavBar";
 
 export default function App() {
   const [useCamera, setUseCamera] = useState(false);
-  const [camButtonText, setCamButtonText] = useState("Scan book");
+  const handleSetUseCamera = (useCamera: boolean) => setUseCamera(useCamera);
 
   return (
-    <>
+    <View style={styles.app}>
       <View style={styles.container}>
         {useCamera ? <CameraView /> : <Text>Press button to use camera.</Text>}
       </View>
-      <View style={styles.container}>
-        <Button
-          title={camButtonText}
-          onPress={() => {
-            setUseCamera(!useCamera);
-            useCamera
-              ? setCamButtonText("Scan book")
-              : setCamButtonText("Stop scanning");
-          }}
-        />
-      </View>
-    </>
+      <NavBar setUseCamera={handleSetUseCamera} useCamera={useCamera} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  app: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
