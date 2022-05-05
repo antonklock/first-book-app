@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "red",
     position: "absolute",
     left: 0,
     right: 0,
@@ -53,13 +52,19 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
+
     position: "absolute",
+    top: -100,
+
     width: 100,
     height: 100,
-    backgroundColor: "blue",
     borderRadius: 100,
-    marginTop: -100,
+
+    backgroundColor: "blue",
+    shadowColor: "black",
+    shadowOffset: { width: 5, height: 15 },
+    shadowRadius: 15,
+    shadowOpacity: 0.25,
   },
   scanButtonText: {
     color: "white",

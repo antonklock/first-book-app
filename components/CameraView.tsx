@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    width: 400,
-    margin: 50,
+    width: 450,
+    // alignSelf: "stretch",
   },
   buttonContainer: {
     flex: 1,
