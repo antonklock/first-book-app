@@ -10,6 +10,7 @@ type NavPropsType = {
 export default function NavBar(props: NavPropsType) {
   const { useCamera } = props;
   const { setUseCamera } = props;
+
   function handleClickScan() {
     if (!useCamera) {
       setUseCamera(true);
@@ -21,18 +22,18 @@ export default function NavBar(props: NavPropsType) {
     setUseCamera(false);
   }
   return (
-    <>
-      <View style={styles.nav}>
-        <Pressable style={styles.scanButton} onPress={handleClickScan}>
-          <Text style={styles.scanButtonText}>Scan</Text>
+    <View style={styles.nav}>
+      <Pressable style={styles.scanButton} onPress={handleClickScan}>
+        <Text style={styles.scanButtonText}>Scan</Text>
+      </Pressable>
+      {useCamera ? (
+        <Pressable style={styles.closeCameraButton} onPress={handleCloseCamera}>
+          <Text style={styles.closeIcon}>X</Text>
         </Pressable>
-        {useCamera ? (
-          <Button title="Close camera" onPress={handleCloseCamera}></Button>
-        ) : (
-          false
-        )}
-      </View>
-    </>
+      ) : (
+        false
+      )}
+    </View>
   );
 }
 
@@ -68,5 +69,27 @@ const styles = StyleSheet.create({
   },
   scanButtonText: {
     color: "white",
+  },
+  closeCameraButton: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+
+    backgroundColor: "red",
+
+    position: "absolute",
+    right: 100,
+
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    borderColor: "white",
+    borderWidth: 2,
+  },
+  closeIcon: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 30,
   },
 });

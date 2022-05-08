@@ -19,22 +19,7 @@ export default function CameraView() {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}
-          >
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
+      <Camera style={styles.camera} type={type} />
     </View>
   );
 }
@@ -42,14 +27,12 @@ export default function CameraView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#ff0000",
     alignItems: "center",
     justifyContent: "center",
   },
   camera: {
     flex: 1,
     width: 450,
-    // alignSelf: "stretch",
   },
   buttonContainer: {
     flex: 1,
