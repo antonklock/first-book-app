@@ -6,10 +6,11 @@ import PhotoThumb from "../PhotoThumb/PhotoThumb";
 type CameraViewTypes = {
   cameraRef: any;
   imgSource: string;
+  cameraActive: boolean;
 };
 
 export default function CameraView(props: CameraViewTypes) {
-  const { cameraRef, imgSource } = props;
+  const { cameraRef, imgSource, cameraActive } = props;
   const [hasPermission, setHasPermission] = useState(false);
   // const [imgSource, setImgSource] = useState("");
 
@@ -26,37 +27,21 @@ export default function CameraView(props: CameraViewTypes) {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} ref={cameraRef} />
-      <View style={styles.container}>
+      {cameraActive ? (
+        <Camera style={styles.camera} ref={cameraRef} />
+      ) : (
         <PhotoThumb imgSource={imgSource} />
-      </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
   },
   camera: {
     flex: 1,
     width: 450,
-  },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-    flexDirection: "row",
-    margin: 20,
-  },
-  button: {
-    flex: 0.1,
-    alignSelf: "flex-end",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 18,
-    color: "white",
   },
 });

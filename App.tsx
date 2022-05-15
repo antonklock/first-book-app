@@ -11,13 +11,21 @@ export default function App() {
   const [imgSource, setImgSource] = useState("");
   const handleSetImgSource = (imgUri: string) => setImgSource(imgUri);
 
+  const [cameraActive, setCameraActive] = useState(true);
+  const handleSetCameraActive = (camActive: boolean) =>
+    setCameraActive(camActive);
+
   const cameraRef = useRef(null);
 
   return (
     <View style={styles.app}>
       <View style={styles.container}>
         {useCamera ? (
-          <CameraView cameraRef={cameraRef} imgSource={imgSource} />
+          <CameraView
+            cameraRef={cameraRef}
+            imgSource={imgSource}
+            cameraActive={cameraActive}
+          />
         ) : (
           <Text>Press button to use camera.</Text>
         )}
@@ -28,6 +36,8 @@ export default function App() {
         takePhoto={takePhoto}
         cameraRef={cameraRef}
         setImgSource={handleSetImgSource}
+        cameraActive={cameraActive}
+        setCameraActive={handleSetCameraActive}
       />
     </View>
   );
@@ -39,9 +49,6 @@ async function takePhoto(
   let photo: CameraCapturedPicture;
   try {
     photo = await cameraRef.current.takePictureAsync();
-    Alert.alert("Picture taken", `${photo.uri}`, [
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
     return photo;
   } catch {
     console.log("Failed to take picture!");

@@ -1,32 +1,49 @@
 import { CameraCapturedPicture } from "expo-camera";
 import React from "react";
-import { View, StyleSheet, Button, Pressable, Text } from "react-native";
+import { View, StyleSheet, Pressable, Text } from "react-native";
 
 type NavPropsType = {
   setUseCamera: (useCamera: boolean) => void;
   useCamera: boolean;
   takePhoto: (cameraRef: any) => Promise<CameraCapturedPicture | null>;
-  cameraRef: any;
+  cameraRef: React.MutableRefObject<null>;
   setImgSource: (imgUri: string) => void;
+  cameraActive: boolean;
+  setCameraActive: (camActive: boolean) => void;
 };
 
 export default function NavBar(props: NavPropsType) {
-  const { useCamera, setUseCamera, takePhoto, cameraRef, setImgSource } = props;
+  const {
+    useCamera,
+    setUseCamera,
+    takePhoto,
+    cameraRef,
+    setImgSource,
+    cameraActive,
+    setCameraActive,
+  } = props;
 
   function handleClickScan() {
     if (!useCamera) {
       setUseCamera(true);
     } else {
-      takePhoto(cameraRef).then((result: CameraCapturedPicture | null) => {
-        if (result !== null) {
-          setImgSource(result.uri);
-        }
-      });
+      if (cameraActive) {
+        takePhoto(cameraRef).then((result: CameraCapturedPicture | null) => {
+          if (result !== null) {
+            setImgSource(result.uri);
+          }
+        });
+
+        setCameraActive(false);
+      } else {
+        setCameraActive(true);
+      }
     }
   }
 
   function handleCloseCamera() {
     setUseCamera(false);
+    setCameraActive(true);
   }
   return (
     <View style={styles.nav}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Dimensions } from "react-native";
 
 interface PhotoThumbProps {
   imgSource: string;
@@ -15,15 +15,13 @@ const PhotoThumb: React.FC<PhotoThumbProps> = ({ imgSource }): JSX.Element => {
 
 const styles = StyleSheet.create({
   thumb: {
-    width: 50,
-    height: 50,
-    bottom: 50,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
   redSquare: {
     backgroundColor: "red",
-    width: 50,
-    height: 50,
-    bottom: 50,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });
 
