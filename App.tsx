@@ -3,6 +3,7 @@ import { CameraCapturedPicture } from "expo-camera";
 import React, { useState, useRef } from "react";
 import CameraView from "./components/CameraView/CameraView";
 import NavBar from "./components/Nav/NavBar";
+import BookList from "./components/BookList/BookList";
 
 export default function App() {
   const [useCamera, setUseCamera] = useState(false);
@@ -27,7 +28,7 @@ export default function App() {
             cameraActive={cameraActive}
           />
         ) : (
-          <Text>This is the home screen.</Text>
+          <BookList />
         )}
       </View>
       <NavBar
