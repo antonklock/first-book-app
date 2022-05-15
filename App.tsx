@@ -27,7 +27,7 @@ export default function App() {
             cameraActive={cameraActive}
           />
         ) : (
-          <Text>Press button to use camera.</Text>
+          <Text>This is the home screen.</Text>
         )}
       </View>
       <NavBar

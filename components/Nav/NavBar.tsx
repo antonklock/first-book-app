@@ -1,6 +1,19 @@
 import { CameraCapturedPicture } from "expo-camera";
 import React from "react";
-import { View, StyleSheet, Pressable, Text } from "react-native";
+import { View, StyleSheet, Pressable, Text, Dimensions } from "react-native";
+import Constants from "expo-constants";
+
+import IconButton from "../IconButton/IconButton";
+import ScanButton from "../ScanButton/ScanButton";
+
+const navHeight = Dimensions.get("window").height * 0.87;
+
+const scanButtonHeight = 65;
+const scanButtonWidth = scanButtonHeight;
+const scanIconSize = scanButtonHeight / 2;
+
+const homeIconSize = 24;
+const searchIconSize = 24;
 
 type NavPropsType = {
   setUseCamera: (useCamera: boolean) => void;
@@ -46,74 +59,98 @@ export default function NavBar(props: NavPropsType) {
     setCameraActive(true);
   }
   return (
-    <View style={styles.nav}>
-      <Pressable style={styles.scanButton} onPress={handleClickScan}>
-        <Text style={styles.scanButtonText}>Scan</Text>
-      </Pressable>
-      {useCamera ? (
-        <Pressable style={styles.closeCameraButton} onPress={handleCloseCamera}>
-          <Text style={styles.closeIcon}>X</Text>
-        </Pressable>
-      ) : (
-        false
-      )}
-    </View>
+    <>
+      <View style={styles.nav}>
+        <View style={styles.searchButton}>
+          <IconButton
+            iconName={"search"}
+            iconSize={searchIconSize}
+            iconColor={"black"}
+            handlePress={handleCloseCamera}
+          />
+        </View>
+
+        <View style={styles.scanButton}>
+          <ScanButton
+            iconName={"camera"}
+            iconSize={scanIconSize}
+            iconColor={"white"}
+            handlePress={handleClickScan}
+          />
+        </View>
+
+        <View style={styles.homeButton}>
+          <IconButton
+            iconName={"home"}
+            iconSize={homeIconSize}
+            iconColor={"black"}
+            handlePress={handleCloseCamera}
+          />
+        </View>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   nav: {
-    flex: 1,
-    flexDirection: "column",
+    // flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,
-    top: 800,
+    top: navHeight,
+    backgroundColor: "white",
+    borderRadius: 50,
+    shadowColor: "black",
+    shadowRadius: 25,
+    shadowOpacity: 0.15,
+    marginBottom: 50,
+    marginLeft: 10,
+    marginRight: 10,
   },
   scanButton: {
-    flex: 1,
+    flex: 2,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
 
     position: "absolute",
-    top: -100,
 
-    width: 100,
-    height: 100,
+    width: scanButtonWidth,
+    height: scanButtonHeight,
     borderRadius: 100,
 
-    backgroundColor: "blue",
-    shadowColor: "black",
-    shadowOffset: { width: 5, height: 15 },
-    shadowRadius: 15,
-    shadowOpacity: 0.25,
+    backgroundColor: "black",
   },
-  scanButtonText: {
-    color: "white",
-  },
-  closeCameraButton: {
+  homeButton: {
     flex: 1,
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-
-    backgroundColor: "red",
-
-    position: "absolute",
-    right: 100,
-
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    borderColor: "white",
-    borderWidth: 2,
+    left: Dimensions.get("window").width * 0.05,
+    // top: Dimensions.get("window").height * 0.01,
+  },
+  searchButton: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    right: Dimensions.get("window").width * 0.05,
+    // top: Dimensions.get("window").height * 0.01,
   },
   closeIcon: {
     textAlign: "center",
     color: "white",
     fontSize: 30,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#ecf0f1",
+    padding: 8,
   },
 });
