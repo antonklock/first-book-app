@@ -8,7 +8,7 @@ import ScanButton from "../ScanButton/ScanButton";
 
 const navHeight = Dimensions.get("window").height * 0.87;
 
-const scanButtonHeight = 65;
+const scanButtonHeight = 45;
 const scanButtonWidth = scanButtonHeight;
 const scanIconSize = scanButtonHeight / 2;
 
@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     top: navHeight,
     backgroundColor: "white",
-    borderRadius: 50,
+    borderRadius: 15,
     shadowColor: "black",
     shadowRadius: 25,
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.1,
     marginBottom: 50,
     marginLeft: 10,
     marginRight: 10,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
 
     width: scanButtonWidth,
     height: scanButtonHeight,
-    borderRadius: 100,
+    borderRadius: 15,
 
     backgroundColor: "black",
   },
@@ -131,14 +131,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     left: Dimensions.get("window").width * 0.05,
-    // top: Dimensions.get("window").height * 0.01,
   },
   searchButton: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     right: Dimensions.get("window").width * 0.05,
-    // top: Dimensions.get("window").height * 0.01,
   },
   closeIcon: {
     textAlign: "center",
