@@ -53,28 +53,43 @@ export default function BookCard(props: BookCardProps) {
   handleLoadCover();
 
   return (
-    <View style={styles.bookCard}>
-      {coverLoaded ? (
-        <>
-          <Text>{title}</Text>
-          <Image
-            style={styles.image}
-            source={{
-              uri: coverUri,
-            }}
-          />
-          <Text>{author}</Text>
-        </>
-      ) : (
-        false
-      )}
+    <View style={styles.container}>
+      <View style={styles.bookCard}>
+        {coverLoaded ? (
+          <>
+            <Image
+              style={styles.image}
+              source={{
+                uri: coverUri,
+              }}
+            />
+            <Text style={styles.h1}>{title}</Text>
+            <Text style={styles.p}>{author}</Text>
+          </>
+        ) : (
+          false
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "flex-start",
+    textAlign: "left",
+    marginBottom: 25,
+  },
+  h1: {
+    fontSize: 18,
+    fontWeight: "800",
+  },
+  p: {
+    fontSize: 11,
+  },
   bookCard: {
-    backgroundColor: "red",
     width: 150,
     height: 200,
     margin: 15,
