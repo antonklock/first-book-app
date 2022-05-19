@@ -17,32 +17,51 @@ const search = "search.json";
 
 export default function BookList() {
   const [text, setText] = useState("Search for a book title.");
+
+  const [books, setBooks] = useState([]);
+
   const [searchText, onChangeSearchText] = useState("");
 
   const fetchBook = async (searchTerm: string) => {
     let response: any;
     try {
-      const config = {
+      return (response = axios({
         method: "get",
         url: `${baseUrl}${search}?title=${searchTerm}`,
-      };
-      setText("Searching...");
-      response = await axios(config);
-    } catch {
-      setText("Couldn't find anything.");
-    } finally {
-      setText(response.data.docs[0].author_name[0]);
+      }));
+    } catch {}
+  };
+
+  const renderBooks = async (searchString: string) => {
+    let bookList = [];
+    setBooks([]);
+    setText("Seaching...");
+    try {
+      const book = await fetchBook(searchText);
+      if (book) {
+        for (let i = 0; i < 10; i++) {
+          const title = book.data.docs[i].title;
+          const author = book.data.docs[i].author_name[0];
+          const id = book.data.docs[i].cover_i;
+          if (title !== undefined && author !== undefined && id !== undefined) {
+            bookList.push(
+              <BookCard title={title} author={author} coverId={id} key={i} />
+            );
+          }
+        }
+      }
+      setBooks(bookList);
+      setText("Search for another title.");
+    } catch (e) {
+      console.log("renderBooksError: " + e);
+      setText("Something went wrong. :(");
     }
   };
 
   return (
     <>
       <View style={styles.bookCardContainer}>
-        <BookCard
-          title={"Test title"}
-          author={"Test author"}
-          coverId={"12547191"}
-        />
+        {books.length > 0 ? books : <Text>{text}</Text>}
       </View>
       <View style={styles.inputContainer}>
         <Text>{text}</Text>
@@ -50,7 +69,8 @@ export default function BookList() {
         <Button
           title={"Submit"}
           onPress={() => {
-            fetchBook(searchText);
+            // fetchBook(searchText);
+            renderBooks(searchText);
           }}
         >
           Submit

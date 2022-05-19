@@ -21,14 +21,11 @@ const fetchCover = async (id: string) => {
   };
   try {
     response = await axios(config);
-  } catch {
-  } finally {
-    if (response) {
-      return response.data;
-    } else {
-      console.log("Respnse is undefined");
-      console.log("Url: " + `${baseUrl}${id}.json`);
-    }
+    return response.data;
+  } catch (e) {
+    console.log("Response is undefined");
+    console.log("Url: " + `${baseUrl}${id}.json`);
+    console.log("fetchCoveverError: " + e.response.data);
   }
 };
 
@@ -38,16 +35,18 @@ export default function BookCard(props: BookCardProps) {
   const [coverUri, setCoverUri] = useState("");
 
   const handleLoadCover = async () => {
+    let coverObject;
+    try {
+      coverObject = await fetchCover(coverId);
+      const url = "https://covers.openlibrary.org/b/olid/";
+      setCoverUri(`${url}${coverObject.olid}-M.jpg`);
+      setCoverLoaded(true);
+    } catch (e) {
+      console.log("handleLoadCover error: " + e);
+      console.log("Cover ID: " + coverId);
+    }
+
     if (!coverLoaded) {
-      let coverObject;
-      try {
-        coverObject = await fetchCover(coverId);
-      } catch {
-      } finally {
-        const url = "https://covers.openlibrary.org/b/olid/";
-        setCoverUri(`${url}${coverObject.olid}-M.jpg`);
-        setCoverLoaded(true);
-      }
     }
   };
 
