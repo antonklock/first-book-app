@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -6,6 +6,8 @@ import {
   TextInput,
   Button,
   Dimensions,
+  ScrollView,
+  Keyboard,
 } from "react-native";
 import axios from "axios";
 import BookCard from "../BookCard/BookCard";
@@ -17,10 +19,22 @@ const search = "search.json";
 
 export default function BookList() {
   const [text, setText] = useState("Search for a book title.");
-
   const [books, setBooks] = useState([]);
-
   const [searchText, onChangeSearchText] = useState("");
+  const textInputRef = useRef(null);
+  const [keyboardStatus, setKeyboardStatus] = useState("");
+  const _keyboardDidShow = () => setKeyboardStatus("Keyboard Shown");
+  const _keyboardDidHide = () => setKeyboardStatus("Keyboard Hidden");
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardWillShow", _keyboardDidShow);
+    Keyboard.addListener("keyboardWillHide", _keyboardDidHide);
+
+    return () => {
+      Keyboard.removeListener("keyboardWillShow", _keyboardDidShow);
+      Keyboard.removeListener("keyboardWillHide", _keyboardDidHide);
+    };
+  }, []);
 
   const fetchBook = async (searchTerm: string) => {
     let response: any;
@@ -47,6 +61,7 @@ export default function BookList() {
             bookList.push(
               <BookCard title={title} author={author} coverId={id} key={i} />
             );
+            // setBooks(bookList);
           }
         }
       }
@@ -58,18 +73,33 @@ export default function BookList() {
     }
   };
 
+  const handleTextInputPosition = () => {
+    if (keyboardStatus == "Keyboard Shown") {
+      return { ...styles.inputContainer, flex: 1.2 };
+    } else {
+      return styles.inputContainer;
+    }
+  };
+
   return (
     <>
-      <View style={styles.bookCardContainer}>
-        {books.length > 0 ? books : <Text>{text}</Text>}
-      </View>
-      <View style={styles.inputContainer}>
+      <ScrollView style={styles.container} directionalLockEnabled={true}>
+        <View style={styles.scrollView}>
+          {books.length > 0 ? books : <Text>{text}</Text>}
+        </View>
+      </ScrollView>
+
+      <View style={handleTextInputPosition()}>
         <Text>{text}</Text>
-        <TextInput style={styles.textInput} onChangeText={onChangeSearchText} />
+
+        <TextInput
+          style={styles.textInput}
+          onChangeText={onChangeSearchText}
+          ref={textInputRef}
+        />
         <Button
           title={"Submit"}
           onPress={() => {
-            // fetchBook(searchText);
             renderBooks(searchText);
           }}
         >
@@ -81,8 +111,23 @@ export default function BookList() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 2,
+    paddingTop: 100,
+  },
+  scrollView: {
+    paddingTop: 10,
+    paddingBottom: 100,
+
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    alignItems: "flex-start",
+    width: Dimensions.get("window").width - 10,
+    padding: 25,
+  },
   inputContainer: {
-    flex: 1,
+    flex: 0.35,
     alignItems: "center",
     backgroundColor: "white",
     paddingTop: 25,

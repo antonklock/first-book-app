@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "flex-start",
     textAlign: "left",
-    marginBottom: 25,
+    marginBottom: 75,
   },
   h1: {
     fontSize: 18,
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   image: {
-    width: bookWidth,
-    height: bookHeight,
+    width: "100%",
+    height: "100%",
+    borderRadius: 20,
   },
 });
