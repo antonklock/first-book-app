@@ -16,6 +16,9 @@ export default function App() {
   const handleSetCameraActive = (camActive: boolean) =>
     setCameraActive(camActive);
 
+  const [searchText, setSearchText] = useState("");
+  const handleSetSearchText = (searchText: string) => setSearchText(searchText);
+
   const cameraRef = useRef(null);
 
   return (
@@ -28,7 +31,10 @@ export default function App() {
             cameraActive={cameraActive}
           />
         ) : (
-          <BookList />
+          <BookList
+            searchText={searchText}
+            setSearchText={handleSetSearchText}
+          />
         )}
       </View>
       <NavBar
@@ -39,6 +45,7 @@ export default function App() {
         setImgSource={handleSetImgSource}
         cameraActive={cameraActive}
         setCameraActive={handleSetCameraActive}
+        setSearchText={handleSetSearchText}
       />
     </View>
   );

@@ -9,14 +9,18 @@ import {
   ScrollView,
   Keyboard,
 } from "react-native";
-import axios from "axios";
 import BookCard from "../BookCard/BookCard";
 import fetchBook from "../../Utils/OpenLibraryAPI/fetchBook";
 
-export default function BookList() {
+type BookListProps = {
+  searchText: string;
+  setSearchText: (searchText: string) => void;
+};
+
+export default function BookList(props: BookListProps) {
+  const { searchText, setSearchText } = props;
   const [text, setText] = useState("Search for a book title.");
   const [books, setBooks] = useState([]);
-  const [searchText, onChangeSearchText] = useState("");
   const textInputRef = useRef(null);
   const [keyboardStatus, setKeyboardStatus] = useState("");
   const _keyboardDidShow = () => setKeyboardStatus("Keyboard Shown");
@@ -82,12 +86,6 @@ export default function BookList() {
 
       <View style={handleTextInputPosition()}>
         <Text>{text}</Text>
-
-        <TextInput
-          style={styles.textInput}
-          onChangeText={onChangeSearchText}
-          ref={textInputRef}
-        />
         <Button
           title={"Submit"}
           onPress={() => {
