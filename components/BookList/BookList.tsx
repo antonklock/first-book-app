@@ -11,11 +11,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import BookCard from "../BookCard/BookCard";
-
-//Open library EXAMPLE
-//http://openlibrary.org/search.json?q=the+lord+of+the+rings
-const baseUrl = "http://openlibrary.org/";
-const search = "search.json";
+import fetchBook from "../../Utils/OpenLibraryAPI/fetchBook";
 
 export default function BookList() {
   const [text, setText] = useState("Search for a book title.");
@@ -27,24 +23,20 @@ export default function BookList() {
   const _keyboardDidHide = () => setKeyboardStatus("Keyboard Hidden");
 
   useEffect(() => {
-    Keyboard.addListener("keyboardWillShow", _keyboardDidShow);
-    Keyboard.addListener("keyboardWillHide", _keyboardDidHide);
+    const keyboardWillShowListener = Keyboard.addListener(
+      "keyboardWillShow",
+      _keyboardDidShow
+    );
+    const keyboardWillHideListener = Keyboard.addListener(
+      "keyboardWillHide",
+      _keyboardDidHide
+    );
 
     return () => {
-      Keyboard.removeListener("keyboardWillShow", _keyboardDidShow);
-      Keyboard.removeListener("keyboardWillHide", _keyboardDidHide);
+      keyboardWillShowListener.remove();
+      keyboardWillHideListener.remove();
     };
   }, []);
-
-  const fetchBook = async (searchTerm: string) => {
-    let response: any;
-    try {
-      return (response = axios({
-        method: "get",
-        url: `${baseUrl}${search}?title=${searchTerm}`,
-      }));
-    } catch {}
-  };
 
   const renderBooks = async (searchString: string) => {
     let bookList = [];
@@ -61,7 +53,6 @@ export default function BookList() {
             bookList.push(
               <BookCard title={title} author={author} coverId={id} key={i} />
             );
-            // setBooks(bookList);
           }
         }
       }
